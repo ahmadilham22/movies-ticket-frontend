@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { Link } from "react-router";
 import { useParams } from "react-router";
+import MovieShowTime from "../components/MovieShowTime";
 
 function MovieDetailPage() {
   const { id } = useParams();
@@ -93,6 +94,8 @@ function MovieDetailPage() {
               <p className="mt-4 leading-relaxed text-zinc-300">
                 {movie.synopsis}
               </p>
+
+              <MovieShowTime movieId={movie.id} />
             </div>
           </div>
         )}
