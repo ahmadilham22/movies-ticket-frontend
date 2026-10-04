@@ -1,6 +1,7 @@
 import { useState } from "react";
 import MovieCard from "../components/MovieCard";
 import { useEffect } from "react";
+import { Link } from "react-router";
 
 function MovieListPage() {
   const [movies, setMovies] = useState([]);
@@ -51,12 +52,41 @@ function MovieListPage() {
     movie.title.toLowerCase().includes(normalizedSearch),
   );
 
+  const [hasToken, setHasToken] = useState(() =>
+    Boolean(sessionStorage.getItem("token")),
+  );
+
+  function handleLogout() {
+    sessionStorage.removeItem("token");
+    setHasToken(false);
+  }
+
   return (
     <main className="min-h-screen bg-zinc-950 text-white">
       <div className="mx-auto max-w-5xl p-6">
-        <header className="flex items-center justify-between gap-4">
+        <header className="flex flex-wrap items-center justify-between gap-4">
           <h1 className="text-2xl font-bold">Movies Ticketing</h1>
-          <p className="text-zinc-400">{filteredMovies.length}</p>
+
+          <div className="flex items-center gap-4">
+            <p className="text-zinc-400">{filteredMovies.length}</p>
+
+            {hasToken ? (
+              <button
+                type="button"
+                onClick={handleLogout}
+                className="p-3 text-sm hover:underline cursor-pointer"
+              >
+                Logout
+              </button>
+            ) : (
+              <Link
+                to="/login"
+                className="p-3 text-sm hover:underline cursor-pointer"
+              >
+                Login
+              </Link>
+            )}
+          </div>
         </header>
         <input
           type="search"
