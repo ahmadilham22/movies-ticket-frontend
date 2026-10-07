@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router";
 import { useNavigate } from "react-router";
 
 function LoginPage() {
@@ -82,6 +83,7 @@ function LoginPage() {
           </button>
           {errorMessage && <p role="alert">{errorMessage}</p>}
         </form>
+        <Link to="/register" className="mt-4 inline-block text-sm hover:underline">Create an account</Link>
       </div>
     </main>
   );
