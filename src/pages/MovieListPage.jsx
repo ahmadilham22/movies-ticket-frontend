@@ -69,7 +69,14 @@ function MovieListPage() {
 
           <div className="flex items-center gap-4">
             <p className="text-zinc-400">{filteredMovies.length}</p>
-
+            {hasToken && (
+              <Link
+                to="/transactions"
+                className="p-3 text-sm hover:underline cursor-pointer"
+              >
+                Transactions
+              </Link>
+            )}
             {hasToken ? (
               <button
                 type="button"
