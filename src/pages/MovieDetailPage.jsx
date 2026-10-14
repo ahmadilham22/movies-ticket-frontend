@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { Link } from "react-router";
 import { useParams } from "react-router";
 import MovieShowTime from "../components/MovieShowTime";
+import PageLayout from "../components/PageLayout";
 
 function MovieDetailPage() {
   const { id } = useParams();
@@ -56,51 +57,51 @@ function MovieDetailPage() {
   }, [id]);
 
   return (
-    <main className="min-h-screen bg-zinc-950 text-white">
-      <div className="mx-auto max-w-5xl p-6">
-        <Link
-          to="/"
-          className="mb-6 inline-block text-sm text-zinc-400 hover:underline"
-        >
-          Back to movies
-        </Link>
-        {isLoading && <p role="status">Loading movie...</p>}
+    <PageLayout>
+      <Link
+        to="/"
+        className="mb-6 inline-block text-sm text-zinc-400 hover:underline"
+      >
+        Back to movies
+      </Link>
+      {isLoading && <p role="status">Loading movie...</p>}
 
-        {!isLoading && errorMessage && <p role="alert">{errorMessage}</p>}
+      {!isLoading && errorMessage && <p role="alert">{errorMessage}</p>}
 
-        {!isLoading && !errorMessage && movie && (
-          <div className="grid grid-cols-1 items-start gap-6 md:grid-cols-3">
-            <img
-              src={movie.poster_url}
-              alt={movie.title}
-              className="aspect-2/3 w-full object-cover"
-            />
-            <div className="min-w-0 md:col-span-2">
-              <h1 className="text-2xl font-bold">{movie.title}</h1>
+      {!isLoading && !errorMessage && movie && (
+        <div className="grid grid-cols-1 items-start gap-6 md:grid-cols-[280px_minmax(0,1fr)] md:gap-10">
+          <img
+            src={movie.poster_url}
+            alt={movie.title}
+            className="mx-auto aspect-2/3 w-full max-w-70 rounded-md object-cover"
+          />
+          <div className="min-w-0">
+            <h1 className="text-3xl font-bold wrap-break-word">
+              {movie.title}
+            </h1>
 
-              <p className="mt-2 text-zinc-400">
-                {movie.duration_minutes} minutes | {movie.age_rating}
-              </p>
-              <ul className="mt-4 flex flex-wrap gap-2">
-                {movie.genres.map((genre) => (
-                  <li
-                    key={genre.id}
-                    className="border border-zinc-700 px-3 py-1 text-sm"
-                  >
-                    {genre.name}
-                  </li>
-                ))}
-              </ul>
-              <p className="mt-4 leading-relaxed text-zinc-300">
-                {movie.synopsis}
-              </p>
+            <p className="mt-3 text-sm text-zinc-400">
+              {movie.duration_minutes} minutes | {movie.age_rating}
+            </p>
+            <ul className="mt-4 flex flex-wrap gap-2">
+              {movie.genres.map((genre) => (
+                <li
+                  key={genre.id}
+                  className="rounded border border-zinc-700 px-2 py-1 text-xs"
+                >
+                  {genre.name}
+                </li>
+              ))}
+            </ul>
+            <p className="mt-5 text-sm leading-relaxed text-zinc-300">
+              {movie.synopsis}
+            </p>
 
-              <MovieShowTime movieId={movie.id} />
-            </div>
+            <MovieShowTime movieId={movie.id} />
           </div>
-        )}
-      </div>
-    </main>
+        </div>
+      )}
+    </PageLayout>
   );
 }
 

@@ -1,5 +1,16 @@
 import { Link } from "react-router";
 import { useState } from "react";
+import PageLayout from "../components/PageLayout";
+import {
+  ArrowLeft,
+  Eye,
+  LockKeyholeIcon,
+  Mail,
+  Phone,
+  Ticket,
+  User,
+  UserPlus,
+} from "lucide-react";
 
 const RegisterPage = () => {
   const [name, setName] = useState("");
@@ -54,74 +65,125 @@ const RegisterPage = () => {
   };
 
   return (
-    <main className="min-h-screen bg-zinc-900 text-white">
-      <div className="mx-auto max-w-sm p-6">
-        <h1 className="text-2xl font-bold">Create account</h1>
-        <form className="mt-6 space-y-4" onSubmit={handleRegister}>
+    <PageLayout>
+      <header
+        className="flex flex-col justify-between items-center gap-4 border-b border-zinc-800 pb-6
+        sm:flex-row sm:items-center sm:justify-between"
+      >
+        <p className="text-lg font-semibold flex items-center gap-2">
+          <Ticket className="h-5 w-5 shrink-0 text-brand" aria-hidden="true" />
+          Movies Ticketing
+        </p>
+        <Link
+          to="/"
+          className="flex items-center gap-3 text-sm text-zinc-400 hover:underline"
+        >
+          <ArrowLeft className="h-5 w-5 shrink-0"></ArrowLeft>
+          Back to movies
+        </Link>
+      </header>
+      <div className="mx-auto max-w-lg mt-8 sm:mt-12">
+        <div className="flex flex-col gap-y-2">
+          <h1 className="text-3xl font-bold">Create account</h1>
+          <p className="text-sm text-gray-500">Welcome to Movies Ticketing</p>
+        </div>
+        <form
+          className="mt-6 space-y-6 border-b pb-7 border-gray-600"
+          onSubmit={handleRegister}
+        >
           <div className="">
-            <label htmlFor="name">
-              <span className="text-sm">Name</span>
+            <label htmlFor="name">Name</label>
+            <div className="relative mt-2">
+              <User
+                className="h-5 w-5 left-3 top-1/2 absolute -translate-y-1/2  text-gray-500 pointer-events-none"
+                aria-hidden="true"
+              ></User>
               <input
-                type="text"
                 id="name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                className="mt-2 w-full border border-zinc-700 bg-zinc-950 p-3"
+                type="text"
                 autoComplete="name"
+                value={name}
+                onChange={(event) => setName(event.target.value)}
                 required
+                className="w-full rounded-lg border border-zinc-700 bg-zinc-900 p-3 pl-12"
+                placeholder="Your Name"
               />
-            </label>
+            </div>
           </div>
           <div className="">
-            <label htmlFor="email">
-              <span className="text-sm">Email</span>
+            <label htmlFor="email">Email</label>
+            <div className="relative mt-2">
+              <Mail
+                className="h-5 w-5 left-3 top-1/2 absolute -translate-y-1/2  text-gray-500 pointer-events-none"
+                aria-hidden="true"
+              ></Mail>
               <input
-                type="email"
                 id="email"
+                type="email"
+                autoComplete="username"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="mt-2 w-full border border-zinc-700 bg-zinc-950 p-3"
-                autoComplete="email"
+                onChange={(event) => setEmail(event.target.value)}
                 required
+                className="w-full rounded-lg border border-zinc-700 bg-zinc-900 p-3 pl-12"
+                placeholder="you@example.com"
               />
-            </label>
+            </div>
           </div>
           <div className="">
-            <label htmlFor="password">
-              <span className="text-sm">Password</span>
+            <label htmlFor="password">Password</label>
+            <div className="relative mt-2">
+              <LockKeyholeIcon
+                className="h-5 w-5 left-3 top-1/2 absolute -translate-y-1/2  text-gray-500 pointer-events-none"
+                aria-hidden="true"
+              ></LockKeyholeIcon>
+              <Eye
+                className="h-5 w-5 absolute top-1/2 -translate-y-1/2 right-5 text-gray-500 pointer-events-none"
+                aria-hidden="true"
+              ></Eye>
               <input
-                type="password"
                 id="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="mt-2 w-full border border-zinc-700 bg-zinc-950 p-3"
+                type="password"
                 autoComplete="new-password"
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
                 required
+                placeholder="Enter your password"
+                className="w-full rounded-lg border border-zinc-700 bg-zinc-900 p-3 pl-12 pr-15"
               />
-            </label>
+            </div>
           </div>
           <div className="">
-            <label htmlFor="phoneNumber">
-              <span className="text-sm">Phone Number</span>
+            <div className="flex items-center justify-between">
+              <label htmlFor="phoneNumber">Phone Number</label>
+              <span className="text-xs text-gray-400">Optional</span>
+            </div>
+            <div className="relative mt-2">
+              <Phone
+                className="h-5 w-5 left-3 top-1/2 absolute -translate-y-1/2  text-gray-500 pointer-events-none"
+                aria-hidden="true"
+              ></Phone>
               <input
-                type="tel"
                 id="phoneNumber"
-                value={phoneNumber}
-                onChange={(e) => setPhoneNumber(e.target.value)}
-                className="mt-2 w-full border border-zinc-700 bg-zinc-950 p-3"
+                type="tel"
                 autoComplete="tel"
+                value={phoneNumber}
+                onChange={(event) => setPhoneNumber(event.target.value)}
+                className="w-full rounded-lg border border-zinc-700 bg-zinc-900 p-3 pl-12"
+                placeholder="0812 3456 7890"
               />
-            </label>
+            </div>
           </div>
-          <div className="">
-            <button
-              type="submit"
-              className="w-full bg-white p-3 text-zinc-950 disabled:opacity-50"
-              disabled={isSubmitting}
-            >
-              {isSubmitting ? "Creating account..." : "Create account"}
-            </button>
-          </div>
+          <button
+            type="submit"
+            className="w-full flex justify-center gap-2 items-center font-bold rounded-lg bg-brand p-3 text-zinc-950 cursor-pointer hover:bg-brand/90"
+            disabled={isSubmitting}
+          >
+            <UserPlus
+              className="w-5 h-5 text-black "
+              aria-hidden="true"
+            ></UserPlus>
+            {isSubmitting ? "Creating account..." : "Create account"}
+          </button>
         </form>
         {errorMessage && (
           <p className="text-red-500" role="alert">
@@ -133,11 +195,14 @@ const RegisterPage = () => {
             {successMessage}
           </p>
         )}
-        <Link to="/login" className="text-sm hover:underline cursor-pointer">
-          Already have an account? Log in
-        </Link>
+        <div className="flex gap-2 items-center justify-center text-sm mt-8">
+          <span className="text-gray-400">Already have an account?</span>
+          <Link to="/login" className="text-sm hover:underline">
+            <p className="text-brand font-semibold">Login</p>
+          </Link>
+        </div>
       </div>
-    </main>
+    </PageLayout>
   );
 };
 

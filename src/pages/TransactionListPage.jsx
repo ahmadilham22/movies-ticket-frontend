@@ -2,6 +2,8 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { Link } from "react-router";
+import PageLayout from "../components/PageLayout";
+import { ArrowLeft, CircleCheck, CircleX, Ticket, X } from "lucide-react";
 
 const TransactionListPage = () => {
   const navigate = useNavigate();
@@ -124,81 +126,133 @@ const TransactionListPage = () => {
   };
 
   return (
-    <main className="min-h-screen bg-zinc-950 text-white">
-      <div className="mx-auto max-w-5xl p-6">
-        <Link to="/">Back to movies</Link>
-        <h1 className="mt-6 text-2xl font-bold">My Transactions</h1>
-        <div className="">
-          {/* Loading */}
-          {isLoading && (
-            <p
-              role="status"
-              className="col-span-full py-8 text-center text-zinc-400"
-            >
-              Loading transactions...
-            </p>
-          )}
-
-          {/* Error */}
-          {!isLoading && errorMessage && (
-            <p
-              role="alert"
-              className="col-span-full py-8 text-center text-red-400"
-            >
-              {errorMessage}
-            </p>
-          )}
-
-          {/* Transactions empty */}
-          {!isLoading && !errorMessage && transactions.length === 0 && (
-            <p
-              role="status"
-              className="col-span-full py-8 text-center text-zinc-400"
-            >
-              No transactions found.
-            </p>
-          )}
-
-          {/* Transactions */}
-          {!isLoading && !errorMessage && (
-            <ul className="mt-6 divide-y divide-zinc-800">
-              {transactions.map((transaction) => (
-                <li key={transaction.id} className="py-4">
-                  <p>Booking Code: {transaction.booking_code}</p>
-                  <p>Status: {transaction.status}</p>
-                  <p>Quantity: {transaction.quantity}</p>
-                  <p>
-                    Total: Rp. {transaction.total_price.toLocaleString("id-ID")}
-                  </p>
-                  {transaction.status === "SUCCESS" && (
-                    <button
-                      type="button"
-                      className="mt-3 border border-red-400 px-3 py-2 text-red-400"
-                      disabled={cancellingCode !== null}
-                      onClick={() => handleCancel(transaction)}
-                    >
-                      {cancellingCode === transaction.booking_code
-                        ? "Cancelling..."
-                        : "Cancel Transaction"}
-                    </button>
-                  )}
-                </li>
-              ))}
-            </ul>
-          )}
-          {cancelError && (
-            <p className="text-red-500" role="alert">
-              {cancelError}
-            </p>
-          )}
-          {cancelSuccess && (
-            <p className="text-green-500" role="status">
-              {cancelSuccess}
-            </p>
-          )}
-        </div>
+    <PageLayout>
+      <header
+        className="flex flex-col justify-between items-center gap-4 border-b border-zinc-800 pb-6
+        sm:flex-row sm:items-center sm:justify-between"
+      >
+        <p className="text-lg font-semibold flex items-center gap-2">
+          <Ticket className="h-5 w-5 shrink-0 text-brand" aria-hidden="true" />
+          Movies Ticketing
+        </p>
+        <Link
+          to="/"
+          className="flex items-center gap-3 text-sm text-zinc-400 hover:underline"
+        >
+          <ArrowLeft className="h-5 w-5 shrink-0"></ArrowLeft>
+          Back to movies
+        </Link>
+      </header>
+      <div className="flex justify-between items-center mt-6">
+        <h1 className="text-2xl font-bold">My Transactions</h1>
+        <p className="text-gray-500">{transactions.length} transactions</p>
       </div>
-    </main>
+      <div className="">
+        {/* Loading */}
+        {isLoading && (
+          <p
+            role="status"
+            className="col-span-full py-8 text-center text-zinc-400"
+          >
+            Loading transactions...
+          </p>
+        )}
+
+        {/* Error */}
+        {!isLoading && errorMessage && (
+          <p
+            role="alert"
+            className="col-span-full py-8 text-center text-red-400"
+          >
+            {errorMessage}
+          </p>
+        )}
+
+        {/* Transactions empty */}
+        {!isLoading && !errorMessage && transactions.length === 0 && (
+          <p
+            role="status"
+            className="col-span-full py-8 text-center text-zinc-400"
+          >
+            No transactions found.
+          </p>
+        )}
+
+        {/* Transactions */}
+        {!isLoading && !errorMessage && (
+          <ul className="mt-6 divide-y divide-zinc-800">
+            {transactions.map((transaction) => (
+              <li
+                key={transaction.id}
+                className="py-4 grid grid-cols-2 md:grid-cols-5 gap-4"
+              >
+                <p className="flex flex-col gap-2 col-span-2 md:col-span-1">
+                  <span className="text-gray-400 text-sm">Booking code</span>
+
+                  <span>{transaction.booking_code}</span>
+                </p>
+                <p className="flex flex-col gap-2">
+                  <span className="text-gray-400 text-sm">Status: </span>
+                  <span
+                    className={`w-fit inline-flex items-center gap-2 rounded px-2 py-1 text-xs ${
+                      transaction.status === "SUCCESS"
+                        ? "bg-emerald-500/10 text-emerald-400"
+                        : "bg-zinc-800 text-zinc-400"
+                    }`}
+                  >
+                    {transaction.status === "SUCCESS" ? (
+                      <CircleCheck
+                        className="h-4 w-4 shrink-0"
+                        aria-hidden="true"
+                      />
+                    ) : (
+                      <CircleX
+                        className="h-4 w-4 shrink-0"
+                        aria-hidden="true"
+                      />
+                    )}
+                    {transaction.status === "SUCCESS" ? "SUCCESS" : "CANCELLED"}
+                  </span>
+                </p>
+                <p className="flex flex-col gap-2">
+                  <span className="text-gray-400 text-sm">Quantity:</span>
+                  <span>{transaction.quantity}</span>
+                </p>
+                <p className="flex flex-col gap-2">
+                  <span className="text-gray-400 text-sm">Total:</span>
+                  <span className="font-semibold text-xl">
+                    Rp. {transaction.total_price.toLocaleString("id-ID")}
+                  </span>
+                </p>
+                {transaction.status === "SUCCESS" && (
+                  <button
+                    type="button"
+                    className="self-center min-h-11 rounded-md text-sm disabled:opacity-50 disabled:cursor-not-allowed inline-flex items-center justify-center gap-2 border border-red-400 px-3 py-2 text-red-400"
+                    disabled={cancellingCode !== null}
+                    onClick={() => handleCancel(transaction)}
+                  >
+                    <X className="h-4 w-4 shrink-0" aria-hidden="true" />
+                    {cancellingCode === transaction.booking_code
+                      ? "Cancelling..."
+                      : "Cancel"}
+                  </button>
+                )}
+              </li>
+            ))}
+          </ul>
+        )}
+        {cancelError && (
+          <p className="text-red-500" role="alert">
+            {cancelError}
+          </p>
+        )}
+        {cancelSuccess && (
+          <p className="text-green-500" role="status">
+            {cancelSuccess}
+          </p>
+        )}
+      </div>
+    </PageLayout>
   );
 };
 
